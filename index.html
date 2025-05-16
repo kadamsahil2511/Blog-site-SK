@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeReddit</title>
+    <link rel="stylesheet" href="new-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="A Reddit-style community for web development discussions">
+    <!-- Add meta theme color for mobile browsers -->
+    <meta name="theme-color" content="#ff4500">
+    <!-- Preconnect to external resources for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-container">
+            <h1><i class="fab fa-reddit-alien"></i> codeReddit</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-fire"></i> Hot</a></li>
+                    <li><a href="#"><i class="fas fa-certificate"></i> New</a></li>
+                    <li><a href="#"><i class="fas fa-arrow-trend-up"></i> Top</a></li>
+                    <li><a href="#"><i class="far fa-comment-alt"></i> Comments</a></li>
+                    <li><a href="#"><i class="fas fa-award"></i> Awards</a></li>
+                </ul>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="subreddit-banner">
+        <div class="subreddit-info">
+            <div class="subreddit-icon">
+                <i class="fas fa-code"></i>
+            </div>
+            <div class="subreddit-details">
+                <h2>r/webdev</h2>
+                <p>A community dedicated to web development</p>
+                <button class="join-button">Join</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="post-tools">
+            <!-- Post Creation Form -->
+            <div class="post-creation-window" id="postCreationWindow" style="display: none;">
+                <h3>Create a post</h3>
+                <form id="newPostForm">
+                    <div class="post-type-selector">
+                        <button type="button" class="post-type active" data-type="text"><i class="fas fa-font"></i> Text</button>
+                        <button type="button" class="post-type" data-type="image"><i class="far fa-image"></i> Image</button>
+                        <button type="button" class="post-type" data-type="link"><i class="fas fa-link"></i> Link</button>
+                        <button type="button" class="post-type" data-type="poll"><i class="fas fa-poll"></i> Poll</button>
+                    </div>
+                    <input type="text" id="postTitle" placeholder="Title" required>
+                    <textarea id="postContent" placeholder="What are your thoughts?" required></textarea>
+                    <div class="post-form-actions">
+                        <div class="post-form-tools">
+                            <button type="button" title="Add formatting" class="tool-button"><i class="fas fa-bold"></i></button>
+                            <button type="button" title="Add italic" class="tool-button"><i class="fas fa-italic"></i></button>
+                            <button type="button" title="Add link" class="tool-button"><i class="fas fa-link"></i></button>
+                            <button type="button" title="Add code" class="tool-button"><i class="fas fa-code"></i></button>
+                            <button type="button" title="Add spoiler" class="tool-button"><i class="fas fa-eye-slash"></i></button>
+                        </div>
+                        <div>
+                            <button type="button" id="cancelPost">Cancel</button>
+                            <button type="submit" id="submitPost">Post</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Top Tools Bar -->
+            <div class="tools-top">
+                <div class="view-toggle">
+                    <button class="view-option active" data-view="card"><i class="fas fa-th-large"></i> Card</button>
+                    <button class="view-option" data-view="classic"><i class="fas fa-list"></i> Classic</button>
+                    <button class="view-option" data-view="compact"><i class="fas fa-bars"></i> Compact</button>
+                </div>
+                
+                <div class="sort-options">
+                    <button class="active"><i class="fas fa-fire"></i> Hot</button>
+                    <button><i class="fas fa-certificate"></i> New</button>
+                    <button><i class="fas fa-arrow-trend-up"></i> Top</button>
+                    <button><i class="fas fa-comment"></i> Comments</button>
+                </div>
+            </div>
+            
+            <!-- Middle Tools Bar with Filters -->
+            <div class="tools-middle">
+                <div class="post-filters">
+                    <span class="filter-label">Filter by:</span>
+                    <select class="filter-dropdown">
+                        <option value="all">All Posts</option>
+                        <option value="tutorials">Tutorials</option>
+                        <option value="discussions">Discussions</option>
+                        <option value="showcase">Showcase</option>
+                        <option value="questions">Questions</option>
+                    </select>
+                    
+                    <div class="tag-filters">
+                        <button class="tag-filter"><i class="fas fa-tag"></i> HTML</button>
+                        <button class="tag-filter"><i class="fas fa-tag"></i> CSS</button>
+                        <button class="tag-filter"><i class="fas fa-tag"></i> JavaScript</button>
+                        <button class="tag-filter">+</button>
+                    </div>
+                </div>
+                
+                <button class="create-post"><i class="fas fa-plus"></i> Create Post</button>
+            </div>
+            
+            <!-- Bottom Tools Bar (Community Stats) -->
+            <div class="tools-bottom">
+                <div class="community-stats-compact">
+                    <span><i class="fas fa-users"></i> 1.2M members</span>
+                    <span><i class="fas fa-circle online-indicator"></i> 4.2K online</span>
+                    <span><i class="fas fa-chart-line"></i> Trending</span>
+                </div>
+                
+                <div class="view-options">
+                    <label class="view-toggle-switch">
+                        <input type="checkbox" id="threaded-view">
+                        <span>Threaded View</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <main>
+            <section class="post-list">
+                <article class="post">
+                    <div class="vote-buttons">
+                        <button class="upvote" aria-label="Upvote"><i class="fas fa-arrow-up"></i></button>
+                        <span class="vote-count">428</span>
+                        <button class="downvote" aria-label="Downvote"><i class="fas fa-arrow-down"></i></button>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-info">
+                            <span class="post-subreddit">r/webdev</span>
+                            <span class="post-user">Posted by u/devmaster</span>
+                            <span class="post-time">5 hours ago</span>
+                        </div>
+                        <h3 class="post-title">Getting Started with HTML5</h3>
+                        <p>HTML5 is the latest evolution of the standard that defines HTML. The term represents two different concepts. It is a new version of the language HTML, with new elements, attributes, and behaviors...</p>
+                        <div class="post-actions">
+                            <button><i class="far fa-comment-alt"></i> 42 comments</button>
+                            <button><i class="fas fa-share"></i> Share</button>
+                            <button><i class="far fa-bookmark"></i> Save</button>
+                            <button><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="post">
+                    <div class="vote-buttons">
+                        <button class="upvote" aria-label="Upvote"><i class="fas fa-arrow-up"></i></button>
+                        <span class="vote-count">215</span>
+                        <button class="downvote" aria-label="Downvote"><i class="fas fa-arrow-down"></i></button>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-info">
+                            <span class="post-subreddit">r/webdev</span>
+                            <span class="post-user">Posted by u/css_wizard</span>
+                            <span class="post-time">10 hours ago</span>
+                        </div>
+                        <h3 class="post-title">CSS Flexbox Layout</h3>
+                        <p>The Flexible Box Module, usually referred to as flexbox, was designed as a one-dimensional layout model, and as a method that could offer space distribution between items in an interface and powerful alignment capabilities...</p>
+                        <div class="post-actions">
+                            <button><i class="far fa-comment-alt"></i> 28 comments</button>
+                            <button><i class="fas fa-share"></i> Share</button>
+                            <button><i class="far fa-bookmark"></i> Save</button>
+                            <button><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="post">
+                    <div class="vote-buttons">
+                        <button class="upvote" aria-label="Upvote"><i class="fas fa-arrow-up"></i></button>
+                        <span class="vote-count">175</span>
+                        <button class="downvote" aria-label="Downvote"><i class="fas fa-arrow-down"></i></button>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-info">
+                            <span class="post-subreddit">r/webdev</span>
+                            <span class="post-user">Posted by u/responsive_ninja</span>
+                            <span class="post-time">1 day ago</span>
+                        </div>
+                        <h3 class="post-title">Responsive Web Design Best Practices</h3>
+                        <p>Responsive web design makes your web page look good on all devices. It uses only HTML and CSS. Responsive web design is not a program or a JavaScript. It's about using CSS and HTML to resize, hide, shrink, enlarge, or move the content to make it look good on any screen...</p>
+                        <div class="post-actions">
+                            <button><i class="far fa-comment-alt"></i> 37 comments</button>
+                            <button><i class="fas fa-share"></i> Share</button>
+                            <button><i class="far fa-bookmark"></i> Save</button>
+                            <button><i class="fas fa-ellipsis-h"></i></button>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+
+        <aside class="sidebar">
+            <div class="sidebar-section about-community">
+                <h3>About Community</h3>
+                <p>r/webdev is a community dedicated to web development discussions, learning materials, and sharing knowledge. Join 1.2 million web developers from around the world!</p>
+                <div class="community-stats">
+                    <div class="stat">
+                        <span class="stat-value">1.2m</span>
+                        <span class="stat-label">Members</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">4.2k</span>
+                        <span class="stat-label">Online</span>
+                    </div>
+                </div>
+                <div class="community-created">
+                    <i class="fas fa-birthday-cake"></i>
+                    Created Jan 25, 2010
+                </div>
+                <button class="join-button full-width">Join</button>
+            </div>
+            
+            <div class="sidebar-section community-rules">
+                <h3>r/webdev Rules</h3>
+                <ol class="rules-list">
+                    <li>No spam or self-promotion</li>
+                    <li>Be helpful and friendly</li>
+                    <li>No off-topic posts</li>
+                    <li>Provide code examples</li>
+                    <li>Use descriptive titles</li>
+                </ol>
+            </div>
+
+            <div class="sidebar-section community-topics">
+                <h3>Popular Topics</h3>
+                <div class="topic-tags">
+                    <a href="#" class="topic-tag">HTML</a>
+                    <a href="#" class="topic-tag">CSS</a>
+                    <a href="#" class="topic-tag">JavaScript</a>
+                    <a href="#" class="topic-tag">React</a>
+                    <a href="#" class="topic-tag">Node.js</a>
+                    <a href="#" class="topic-tag">API</a>
+                    <a href="#" class="topic-tag">Frameworks</a>
+                    <a href="#" class="topic-tag">UI/UX</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section moderators">
+                <h3>Moderators</h3>
+                <ul class="moderator-list">
+                    <li><a href="#">u/webdev_mod</a></li>
+                    <li><a href="#">u/css_guru</a></li>
+                    <li><a href="#">u/js_ninja</a></li>
+                    <li><a href="#" class="view-all">View All Moderators</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <button id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="#">About Reddit</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Advertise</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Using Reddit</h4>
+                    <ul>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Reddit App</a></li>
+                        <li><a href="#">Reddit Coins</a></li>
+                        <li><a href="#">Reddit Premium</a></li>
+                        <li><a href="#">Communities</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Policies</h4>
+                    <ul>
+                        <li><a href="#">User Agreement</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Content Policy</a></li>
+                        <li><a href="#">Moderation Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-social">
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Reddit, Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
